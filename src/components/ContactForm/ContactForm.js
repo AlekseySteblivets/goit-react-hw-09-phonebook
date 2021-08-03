@@ -23,6 +23,8 @@ export default function ContactForm() {
         setName(name);
         // setNumber({ [name]: value });
     };
+
+
     const handleInputChangeNumber = evt => {
 
         const number = evt.currentTarget.value;
@@ -98,12 +100,3 @@ export default function ContactForm() {
 // })
 
 // export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
-
-
-
-// const handleInputChange = evt => {
-//     console.log(evt.currentTarget.value);
-//     const { name, value } = evt.currentTarget;
-//     setName({ [name]: value });
-//     // setNumber({ [name]: value });
-// };
