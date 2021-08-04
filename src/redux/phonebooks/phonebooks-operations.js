@@ -18,11 +18,11 @@ export const fetchContact = () => async dispatch => {
     //     .catch(error => dispatch(phonebooksActions.fetchContactError(error)));
 }
 
-export const addContact = (name, number) => dispatch => {
-    const contact = {
-        name,
-        number,
-    };
+export const addContact = (contact) => dispatch => {
+    // const contact = {
+    //     name,
+    //     number,
+    // };
     dispatch(phonebooksActions.addContactRequest());
 
     axios

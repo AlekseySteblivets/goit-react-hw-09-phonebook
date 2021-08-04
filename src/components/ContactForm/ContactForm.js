@@ -4,6 +4,12 @@ import styles from './ContactForm.module.css';
 import { v4 as uuidv4 } from 'uuid';
 import { getItems, addContact } from '../../redux/phonebooks';
 
+
+const initialFormState = {
+    name: '',
+    number: '',
+}
+
 export default function ContactForm() {
     const inputId = uuidv4();
     // state = {
@@ -11,29 +17,32 @@ export default function ContactForm() {
     //     number: '',
 
     // };
-    const [name, setName] = useState('');
-    const [number, setNumber] = useState('');
+
+    const [formData, setFormData] = useState(initialFormState)
+    // const [name, setName] = useState('');
+    // const [number, setNumber] = useState('');
     const dispatch = useDispatch();
     const contacts = useSelector(getItems);
 
 
     const handleInputChange = evt => {
         console.log(evt.currentTarget.value);
-        const name = evt.currentTarget.value;
-        setName(name);
-        // setNumber({ [name]: value });
+        const { name, value } = evt.currentTarget;
+        // setName(name);
+        setFormData((prevState) => ({ ...prevState, [name]: value }));
     };
 
 
-    const handleInputChangeNumber = evt => {
+    // const handleInputChangeNumber = evt => {
 
-        const number = evt.currentTarget.value;
-        setNumber(number);
-        // setNumber({ [name]: value });
-    };
+    //     const number = evt.currentTarget.value;
+    //     setNumber(number);
+    //     // setNumber({ [name]: value });
+    // };
 
     const handleSubmit = evt => {
         evt.preventDefault();
+        const { name, number } = formData
         const findContact = contacts.find(contact => contact.name === name && contact.number === number);
 
         if (findContact) {
@@ -41,13 +50,14 @@ export default function ContactForm() {
             reset();
             return;
         }
-        dispatch(addContact(name, number))
+        dispatch(addContact(formData))
         // this.props.addContact(name, number);
         reset();
     }
     const reset = () => {
-        setName('');
-        setNumber('');
+        // setName('');
+        // setNumber('');
+        setFormData(initialFormState);
 
     };
 
@@ -66,7 +76,7 @@ export default function ContactForm() {
                         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
                         title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
                         required
-                        value={name}
+                        value={formData.name}
                         onChange={handleInputChange}
                         id={inputId}
                     />
@@ -78,8 +88,8 @@ export default function ContactForm() {
                         name="number"
                         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
                         title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
-                        value={number}
-                        onChange={handleInputChangeNumber}
+                        value={formData.number}
+                        onChange={handleInputChange}
                         required
                     />
                 </label>
